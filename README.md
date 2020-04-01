@@ -1,1 +1,1 @@
-MovieTicketBooking
+This a Movie Ticket Booking application which completely follows the microservice architecture. It is using Flask Framework and each microservice is a containerized using Docker.

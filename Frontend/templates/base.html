@@ -1,0 +1,59 @@
+<!--- Base Template--->
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <script src = "{{ url_for('static', filename='js/base.js') }}"></script>
+
+    {% block head %}
+        <title>{% block title %}{% endblock %}</title>
+    {% endblock %}
+</head>
+<body>
+{% block navbar %}
+    <!--Navbar-->
+    <nav class="navbar navbar-dark red lighten-1 mb-4" style="background-color:red">
+
+        <!-- Navbar brand -->
+        <a class="navbar-brand" href="#">MBT</a>
+
+        <!-- Collapse button -->
+        <button class="navbar-toggler second-button" type="button" data-toggle="collapse" data-target="#navbarSupportedContent23"
+                aria-controls="navbarSupportedContent23" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="animated-icon2"><span></span><span></span><span></span><span></span></div>
+        </button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent23">
+
+            <!-- Links -->
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/myProfile">My Profile <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/wishlist">Wish List <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/myWallet">My Wallet <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Sign Out <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <!-- Links -->
+
+        </div>
+        <!-- Collapsible content -->
+
+    </nav>
+    <!--/.Navbar-->
+{% endblock %}
+{% block body %}{% endblock %}
+</body>
+</html>

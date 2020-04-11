@@ -1,11 +1,15 @@
-from flask import Flask
+from flask import Flask, jsonify
+
+from Services.movieService import MovieService
 
 app = Flask(__name__)
 
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
+@app.route('/getAllMovieDetails', methods=['GET'])
+def allmoviedetails():
+    moviesservice = MovieService()
+
+    return jsonify(moviesservice.getallmovies())
 
 
 if __name__ == '__main__':

@@ -1,0 +1,33 @@
+<!--- movies Template--->
+{% extends "base.html" %}
+{% block head %}{{ super() }}{% endblock %}
+{% block title %} movies {% endblock %}
+{% block body %}
+{#    {% for movie in movieList %}#}
+{#        <ul>#}
+{#            <li>{{ movie['Id']|string + " - " + movie['Title'] }}</li>#}
+{#        </ul>#}
+{#    {% endfor %}#}
+
+    <div class="py-3">
+        <div class="container">
+            <div class="row">
+                {% for movie in movieList %}
+                    <div class="col-md-4 mb-5">
+                        <div class="card">
+                            <img class="card-img-top" src="../static/images/small_placeholder_movie.png" alt="Card image" style="max-height: 350px">
+                            <div class="card-body">
+                                <h4 class="card-title overflow" style="text-overflow: ellipsis;">{{movie['Title']}}</h4>
+                                <p class="overflow small" style="text-overflow: ellipsis; color: royalblue">{{ movie['Language'] }}</p>
+                                <p class="card-text overflow" style="text-overflow: ellipsis;">{{ movie['Genres'] }}</p>
+                                <a href="#" class="btn btn-primary">More Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block navbar %}{{ super() }}{% endblock %}

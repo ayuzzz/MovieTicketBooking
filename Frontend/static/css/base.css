@@ -78,4 +78,12 @@ width: 0%;
 left: 50%;
 }
 
-.nav-item
+.overflow {
+    width: inherit;
+
+  /**
+   * Required properties to achieve text-overflow
+   */
+    white-space: nowrap;
+    overflow: hidden;
+}

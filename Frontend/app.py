@@ -43,6 +43,16 @@ def movies():
         return render_template("error.html", message=str(ex))
 
 
+@app.route('/movieDetails/<int:movieid>')
+def movieDetails(movieid):
+    try:
+        response = requests.get(Config.getMovieDetailsUrl.format(movieid))
+        response.raise_for_status()
+        return render_template("movieDetails.html", movieDetails=response.json())
+    except Exception as ex:
+        return render_template("error.html", message=str(ex))
+
+
 @app.route('/theatres')
 def theatres():
     return render_template("theatres.html")

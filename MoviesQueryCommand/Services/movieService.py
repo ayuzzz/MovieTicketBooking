@@ -6,3 +6,6 @@ class MovieService:
 
     def getallmovies(self):
         return self.movieRepo.getallmoviedetails()
+
+    def getmoviedetails(self, movieid):
+        return self.movieRepo.getmoviedetails(movieid)

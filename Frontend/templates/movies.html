@@ -15,12 +15,12 @@
                 {% for movie in movieList %}
                     <div class="col-md-4 mb-5">
                         <div class="card">
-                            <img class="card-img-top" src="../static/images/small_placeholder_movie.png" alt="Card image" style="max-height: 350px">
+                            <img class="card-img-top" src="../static/images/small_placeholder_movie2.png" alt="Movie image" style="max-height: 350px;">
                             <div class="card-body">
                                 <h4 class="card-title overflow" style="text-overflow: ellipsis;">{{movie['Title']}}</h4>
                                 <p class="overflow small" style="text-overflow: ellipsis; color: royalblue">{{ movie['Language'] }}</p>
                                 <p class="card-text overflow" style="text-overflow: ellipsis;">{{ movie['Genres'] }}</p>
-                                <a href="#" class="btn btn-primary">More Details</a>
+                                <a href="/movieDetails/{{ movie['Id'] }}" class="btn btn-primary">More Details</a>
                             </div>
                         </div>
                     </div>

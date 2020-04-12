@@ -12,5 +12,12 @@ def allmoviedetails():
     return jsonify(moviesservice.getallmovies())
 
 
+@app.route('/getMovieDetails/<int:movieid>', methods=['GET'])
+def getMovieDetails(movieid):
+    moviesservice = MovieService()
+
+    return jsonify(moviesservice.getmoviedetails(movieid))
+
+
 if __name__ == '__main__':
     app.run()

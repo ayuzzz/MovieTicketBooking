@@ -1,0 +1,30 @@
+<!--- slots Template--->
+{% extends "base.html" %}
+{% block head %}{{ super() }}{% endblock %}
+{% block title %} slots {% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="col-md-12">
+            {% for movie in movieList %}
+                <a href="/slotDetails/{{ movie['Id'] }}">
+                    <div class="card my-2">
+                        <div class="card-body row m-0 px-0" style="max-height:200px">
+                            <div class="col-md-2">
+                                <img class="p-1" src="/static/images/movie_slot_thumbnail.png" style="width: inherit; height: inherit">
+                            </div>
+                            <div class="col-md-9">
+                                <h5 class="card-title overflow" style="text-overflow: ellipsis;">{{movie['Title']}}</h5>
+                                <p class="overflow" style="text-overflow: ellipsis; color: royalblue">{{ movie['Language'] }}</p>
+                                <p class="overflow" style="text-overflow: ellipsis;">{{ movie['Release_year'] }}</p>
+                            </div>
+                            <div class="col-md-1 my-auto" style="background-color: aquamarine; height:inherit">
+                                <p class="card-text overflow" style="text-overflow: ellipsis;">{{ movie['Imdb_score'] }} <i class="fa fa-star"></i></p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% block navbar %}{{ super() }}{% endblock %}

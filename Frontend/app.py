@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from appsettings import Config
 import requests
 
@@ -53,14 +53,47 @@ def movieDetails(movieid):
         return render_template("error.html", message=str(ex))
 
 
-@app.route('/theatres')
-def theatres():
-    return render_template("theatres.html")
+@app.route('/slots')
+def slots():
+    try:
+        response = requests.get(Config.getNonLiveMoviesUrl)
+        response.raise_for_status()
+        return render_template("slots.html", movieList=response.json())
+    except Exception as ex:
+        return render_template("error.html", message=str(ex))
 
 
-@app.route('/payments')
-def payments():
-    return render_template("payments.html")
+@app.route('/slotDetails/<int:movieid>')
+def slotDetails(movieid):
+    try:
+        response = requests.get(Config.getMovieDetailsUrl.format(movieid))
+        response.raise_for_status()
+
+        theatre_response = requests.get(Config.getTheatresDetailsUrl.format(movieid))
+        theatre_response.raise_for_status()
+
+        return render_template("slotDetails.html", movieList=response.json(), theatres=theatre_response.json())
+    except Exception as ex:
+        return render_template("error.html", message=str(ex))
+
+
+@app.route('/insertSlots', methods=['POST'])
+def insertSlots():
+    try:
+        slotArray = request.get_json(force=True)
+        response = requests.post(Config.insertSlotsUrl, json=slotArray)
+        response.raise_for_status()
+        result = response.json()
+
+        movie_response = requests.get(Config.getMovieDetailsUrl.format(slotArray[0].MovieId))
+        movie_response.raise_for_status()
+
+        theatre_response = requests.get(Config.getTheatresDetailsUrl.format(slotArray[0].MovieId))
+        theatre_response.raise_for_status()
+
+        return render_template("slotDetails.html", movieList=movie_response.json(), theatres=theatre_response.json())
+    except Exception as ex:
+        return render_template("error.html", message=str(ex))
 
 
 if __name__ == '__main__':

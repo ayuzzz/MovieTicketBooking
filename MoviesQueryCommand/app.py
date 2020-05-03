@@ -12,6 +12,13 @@ def allmoviedetails():
     return jsonify(moviesservice.getallmovies())
 
 
+@app.route('/getNonLiveMovies', methods=['GET'])
+def getNonLiveMovies():
+    moviesservice = MovieService()
+
+    return jsonify(moviesservice.getNonLiveMovies())
+
+
 @app.route('/getMovieDetails/<int:movieid>', methods=['GET'])
 def getMovieDetails(movieid):
     moviesservice = MovieService()

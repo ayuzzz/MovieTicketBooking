@@ -1,0 +1,80 @@
+<!--- Slot Details Template--->
+{% extends "base.html" %}
+{% block head %}
+    {{ super() }}
+    <script src = "{{ url_for('static', filename='js/slotdetails.js') }}"></script>
+{% endblock %}
+{% block title %} Slot Details {% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="card">
+            {% for movie in movieList %}
+                <img class="card-img-top" src="../static/images/movieDetails.png" alt="Movie image" style="max-height: 500px;">
+                <a href="#" class="float mx-3 mt-3" style="width: 100px; height: 30px;">
+                    <i class="fa fa-thumbs-up"></i>
+                    {{ movie['Movie_fblikes'] }}
+                </a>
+                <div class="card-body">
+                    <p hidden id="movie-id">{{ movie['Id'] }}</p>
+                    <h4 class="card-title overflow" style="color: brown; text-overflow: ellipsis;"><strong>Title : </strong>{{movie['Title']}}</h4>
+                    <p class="card-text overflow" style="text-overflow: ellipsis;"><i class="fa fa-globe"></i> {{ movie['Country'] }}</p>
+                    <p class="overflow" style="text-overflow: ellipsis; color: royalblue"><strong>Language : </strong> {{ movie['Language'] }}</p>
+                    <p class="card-text overflow" style="text-overflow: ellipsis;"><strong>Content Rating : </strong>{{ movie['Content_rating'] }}</p>
+                    <p class="card-text overflow" style="color: darkgreen; text-overflow: ellipsis;"><strong>Budget : </strong>$ {{ movie['Budget'] }}</p>
+                    <p class="card-text overflow" style="text-overflow: ellipsis;"><strong>Duration : </strong><span id="movie-duration">{{ movie['Duration'] }}</span> minutes</p>
+                    <p class="card-text overflow" style="text-overflow: ellipsis;"><strong>Director : </strong>{{ movie['Director_name'] }}</p>
+
+                    <div>
+                        <div class="row mb-3">
+                            <div class="input-group col-md-6">
+                                <input type="number" min="1" max="12" step="1" class="form-control" id="start-time" placeholder="Start time for first slot" aria-label="Text input with dropdown button">
+                                <div class="input-group-append">
+                                    <select class="form-control" id="start-dropdown">
+                                        <option> AM </option>
+                                        <option> PM </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="input-group col-md-6">
+                                <input type="number" min="0" step="1" class="form-control" id="end-time" placeholder="End time for last slot">
+                                <div class="input-group-append">
+                                    <select class="form-control" id="end-dropdown">
+                                        <option> AM </option>
+                                        <option> PM </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <select id="theatreDetails" class="form-control">
+                                    {% for theatre in theatres %}
+                                        <option id="{{ theatre['Id'] }}"> {{ theatre['Name'] }}, {{ theatre['City'] }}, {{ theatre['Country'] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <input id="rate" type="number" class="form-control" placeholder="Rate of tickets">
+                            </div>
+                        </div>
+                        <div class="row mt-3" id="preview-slots">
+
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <button class="btn btn-primary" id="preview-button"> Preview </button>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="btn btn-primary" id="save-button" disabled="true"> Save </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% block navbar %}{{ super() }}{% endblock %}

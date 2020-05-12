@@ -21,3 +21,9 @@ class TheatreService:
             slotsList.append(slotObject)
 
         return self.theatreRepo.insertSlotDetails(slotsList)
+
+    def getmoviebookingdetails(self, movieid):
+        return self.theatreRepo.getmoviebookingdetails(movieid)
+
+    def slotDetailsForId(self, slotid):
+        return self.theatreRepo.getSlotDetailsForId(slotid)

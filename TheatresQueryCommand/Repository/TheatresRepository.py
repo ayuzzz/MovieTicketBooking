@@ -44,3 +44,33 @@ class TheatreRepository:
         conn.close()
 
         return result > 0 and updateResult > 0
+
+    def getmoviebookingdetails(self, movieid):
+        conn = mysql.connector.connect(user=self.dbconfig.DB_USERNAME, password=self.dbconfig.DB_PASSWORD,
+                                       host=self.dbconfig.DB_HOSTNAME, port=self.dbconfig.DB_PORT,
+                                       database=self.dbconfig.DB_NAME)
+        cursor = conn.cursor()
+        query = Sql.SqlQueries.getMovieBookingDetails.format(movieid)
+        cursor.execute(query)
+        result = []
+        columns = tuple([d[0] for d in cursor.description])
+        for row in cursor:
+            result.append(dict(zip(columns, row)))
+        cursor.close()
+        conn.close()
+        return result
+
+    def getSlotDetailsForId(self, slotid):
+        conn = mysql.connector.connect(user=self.dbconfig.DB_USERNAME, password=self.dbconfig.DB_PASSWORD,
+                                       host=self.dbconfig.DB_HOSTNAME, port=self.dbconfig.DB_PORT,
+                                       database=self.dbconfig.DB_NAME)
+        cursor = conn.cursor()
+        query = Sql.SqlQueries.getSlotDetailsForId.format(slotid)
+        cursor.execute(query)
+        result = []
+        columns = tuple([d[0] for d in cursor.description])
+        for row in cursor:
+            result.append(dict(zip(columns, row)))
+        cursor.close()
+        conn.close()
+        return result

@@ -1,10 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<!--- Payment Status Template --->
+{% extends "base.html" %}
+{% block head %}{{ super() }}{% endblock %}
+{% block title %} Payment Status {% endblock %}
+{% block body %}
+    <div class="row container-fluid">
+        <div class="card col-md-4 mx-auto my-auto" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <div class="card-body row mx-auto my-auto">
+                <div class="col">
+                    {% if status == True %}
+                        <p>Payment Successful !!</p>
+                        <img src="/static/images/green-check-box.png">
+
+                    {% else %}
+                        <p>Payment Failed !!</p>
+                        <img src="/static/images/red-cross.png">
+                    {% endif %}
+                </div>
+            </div>
+            {% if status == False %}
+                <div class="row mx-auto my-auto">
+                    <p style="color: crimson"> Reason : {{ message }}</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+{% block navbar %}{{ super() }}{% endblock %}

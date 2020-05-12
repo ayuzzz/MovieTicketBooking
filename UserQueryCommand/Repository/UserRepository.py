@@ -4,17 +4,17 @@ from Repository import Sql
 from appsettings import Config
 
 
-class PaymentRepository:
+class UserRepository:
     def __init__(self):
         self.dbconfig = Config()
 
-    def getPaymentModesForUser(self):
+    def getUserDetails(self, userid):
         conn = mysql.connector.connect(user=self.dbconfig.DB_USERNAME, password=self.dbconfig.DB_PASSWORD,
                                        host=self.dbconfig.DB_HOSTNAME, port=self.dbconfig.DB_PORT,
                                        database=self.dbconfig.DB_NAME)
 
         cursor = conn.cursor()
-        query = Sql.SqlQueries.getAllPaymentModesForUser
+        query = Sql.SqlQueries.getUserDetails.format(userid)
         cursor.execute(query)
         result = []
         columns = tuple([d[0] for d in cursor.description])
@@ -25,23 +25,19 @@ class PaymentRepository:
         return result
 
 
-    def completePaymentActivity(self, jsonRequest):
+    def submitUserDetails(self, jsonRequest):
         conn = mysql.connector.connect(user=self.dbconfig.DB_USERNAME, password=self.dbconfig.DB_PASSWORD,
                                        host=self.dbconfig.DB_HOSTNAME, port=self.dbconfig.DB_PORT,
                                        database=self.dbconfig.DB_NAME)
 
         cursor = conn.cursor()
-        query = Sql.SqlQueries.insertPaymentDetails.format(int(jsonRequest['userid']), int(jsonRequest['paymentMode']), float(jsonRequest['amount']), int(jsonRequest['numberOfTickets']))
+        query = Sql.SqlQueries.submitUserDetails.format(jsonRequest['firstName'], jsonRequest['lastName'], jsonRequest['primaryContact']
+                                                        , jsonRequest['country'], jsonRequest['city'], jsonRequest['paymentMode']
+                                                        , jsonRequest['age'], jsonRequest['userid'])
+
         cursor.execute(query)
-        result = cursor.rowcount
-        if result > 0 and int(jsonRequest['paymentMode']) == 6:
-            query = Sql.SqlQueries.updateWalletBalance.format(float(jsonRequest['amount']), int(jsonRequest['userid']))
-            cursor.execute(query)
-            updateResult = cursor.rowcount
-        conn.commit()
+        result = cursor.rowcount > 0
         cursor.close()
+        conn.commit()
         conn.close()
-
-        return result > 0 or updateResult > 0
-
         return result

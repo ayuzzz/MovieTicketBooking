@@ -11,12 +11,26 @@ def allmoviedetails():
     return jsonify(theatreservice.getalltheatres())
 
 
+@app.route('/slotDetailsForSlotid/<int:slotid>', methods=['GET'])
+def slotDetailsForId(slotid):
+    theatreservice = TheatreService()
+
+    return jsonify(theatreservice.slotDetailsForId(slotid))
+
+
 @app.route('/insertSlots', methods=['POST'])
 def insertSlots():
     slotArray = request.get_json(force=True)
     theatreservice = TheatreService()
 
     return jsonify(theatreservice.insertSlotDetails(slotArray))
+
+
+@app.route('/getMovieBookingDetails/<int:movieid>', methods=['GET'])
+def getMovieBookingDetails(movieid):
+    theatreservice = TheatreService()
+
+    return jsonify(theatreservice.getmoviebookingdetails(movieid))
 
 
 if __name__ == '__main__':

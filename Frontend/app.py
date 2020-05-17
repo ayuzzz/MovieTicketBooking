@@ -18,19 +18,14 @@ def homepage():
     return render_template("index.html")
 
 
-@app.route('/myProfile')
-def profile():
-    return render_template("profile.html")
-
-
-@app.route('/myTransactions')
-def transactions():
-    return render_template("transactions.html")
-
-
-@app.route('/wishlist')
-def wishlist():
-    return render_template("wishlist.html")
+@app.route('/wishlist/<int:userid>')
+def wishlist(userid):
+    try:
+        response = requests.get(Config.getWishlistedMoviesForUserUrl.format(userid))
+        response.raise_for_status()
+        return render_template("wishlist.html", movieList=response.json())
+    except Exception as ex:
+        return render_template("error.html", message=str(ex))
 
 
 @app.route('/movies')
@@ -46,7 +41,8 @@ def movies():
 @app.route('/movieDetails/<int:movieid>')
 def movieDetails(movieid):
     try:
-        response = requests.get(Config.getMovieDetailsUrl.format(movieid))
+        userid = 1
+        response = requests.get(Config.getMovieDetailsUrl.format(movieid, userid))
         response.raise_for_status()
         return render_template("movieDetails.html", movieDetails=response.json())
     except Exception as ex:
@@ -128,9 +124,10 @@ def submitPayment():
     numTickets = int(request.form['number-of-tickets'])
     paymentMode = int(request.form['paymentMode'])
     amount = float(request.form['amount'])
+    slotId = request.form['slotId']
     userid = 1
 
-    requestDict = {'numberOfTickets': numTickets, 'paymentMode': paymentMode, "amount": amount, 'userid': userid}
+    requestDict = {'numberOfTickets': numTickets, 'paymentMode': paymentMode, "amount": amount, 'userid': userid, 'slotId':slotId}
     response = requests.post(Config.completePaymentUrl, json=requestDict)
     response.raise_for_status()
     result = response.json()
@@ -170,6 +167,34 @@ def submitUserDetails(userid):
     response.raise_for_status()
 
     return getUserDetails(userid)
+
+
+@app.route('/booking-details/<int:userid>', methods=['GET'])
+def getBookingDetailsForUser(userid):
+    try:
+        response = requests.get(Config.getBookingDetailsForUserUrl.format(userid))
+        response.raise_for_status()
+
+        wallet_response = requests.get(Config.getWalletDetailsForUserUrl.format(userid))
+        wallet_response.raise_for_status()
+
+        return render_template("wallet.html", bookingDetails=response.json(), walletDetails = wallet_response.json())
+    except Exception as ex:
+        return render_template("error.html", message=str(ex))
+
+
+@app.route('/addToWishlist/<int:movieid>/<int:userid>', methods=['GET'])
+def addToWishlist(movieid, userid):
+    try:
+        response = requests.post(Config.addToWishlistUrl.format(movieid, userid))
+        response.raise_for_status()
+
+        movie_response = requests.get(Config.getMovieDetailsUrl.format(movieid, userid))
+        movie_response.raise_for_status()
+
+        return render_template("movieDetails.html", movieDetails=movie_response.json())
+    except Exception as ex:
+        return render_template("error.html", message=str(ex))
 
 
 if __name__ == '__main__':

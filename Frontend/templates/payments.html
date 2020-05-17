@@ -41,7 +41,10 @@
                                                     <option> 5 </option>
                                                 </select><br><br>
                     <label class="form-check-label">Total Amount </label>
-                    <input id="amount" name="amount" class="form-control" type="number" readonly><br><br>
+                    <input id="amount" name="amount" class="form-control" type="number" readonly>
+
+                    <input id="slotId" name="slotId" class="form-control" type="number" readonly hidden value="{{ slotDetails[0]['Id'] }}"><br><br>
+
                     <h4> Choose your Payment Mode </h4><br>
                     {% for mode in paymentModes %}
                         <div class="form-check">

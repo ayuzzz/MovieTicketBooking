@@ -10,5 +10,11 @@ class MovieService:
     def getNonLiveMovies(self):
         return self.movieRepo.getNonLiveMovies()
 
-    def getmoviedetails(self, movieid):
-        return self.movieRepo.getmoviedetails(movieid)
+    def getmoviedetails(self, movieid, userid):
+        return self.movieRepo.getmoviedetails(movieid, userid)
+
+    def addToWishlist(self, movieid, userid):
+        return self.movieRepo.addToWishlist(movieid, userid)
+
+    def getWishlistedMovies(self, userid):
+        return self.movieRepo.getWishlistedMovies(userid)

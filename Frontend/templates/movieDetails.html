@@ -8,7 +8,7 @@
             <div class="col-md-12 mb-5">
                 {% for movie in movieDetails %}
                     <div class="card">
-                        <img class="card-img-top" src="../static/images/movieDetails.png" alt="Movie image" style="max-height: 500px;">
+                        <img class="card-img-top" src="../../static/images/movieDetails.png" alt="Movie image" style="max-height: 500px;">
                         <a href="#" class="float mx-3 mt-3" style="width: 100px; height: 30px;">
                             <i class="fa fa-thumbs-up"></i>
                             {{ movie['Movie_fblikes'] }}
@@ -24,7 +24,18 @@
                             <p class="card-text overflow" style="text-overflow: ellipsis;"><strong>Cast : </strong>{{ movie['Actor1_name'] }}, {{ movie['Actor2_name'] }}</p>
                             <p class="card-text overflow" style="text-overflow: ellipsis;"><strong>Genre : </strong>{{ movie['Genres'] }}</p>
                             <p class="card-text overflow" style="text-overflow: ellipsis;"><strong>Year of Release : </strong>{{ movie['Release_year'] }}</p>
-                            <a href="/bookTickets/{{ movie['Id'] }}" class="btn btn-primary">Book Tickets</a>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <a href="/bookTickets/{{ movie['Id'] }}" class="btn btn-primary">Book Tickets</a>
+                                </div>
+                                <div class="col-md-2">
+                                    {% if movie['inWishlist'] == "N" %}
+                                        <a href="/addToWishlist/{{ movie['Id'] }}/1" class="btn btn-primary">Add to Wishlist</a>
+                                    {% else %}
+                                        <a href="#" class="btn btn-primary disabled">Add to Wishlist</a>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 {% endfor %}

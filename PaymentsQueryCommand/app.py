@@ -19,5 +19,17 @@ def completePayment():
     return jsonify(paymentService.completePaymentActivity(jsonRequest))
 
 
+@app.route('/booking-details/<int:userid>', methods=['GET'])
+def getBookingDetailsForUser(userid):
+    paymentService = PaymentService()
+    return jsonify(paymentService.getBookingDetails(userid))
+
+
+@app.route('/wallet-details/<int:userid>', methods=['GET'])
+def getWalletDetailsForUser(userid):
+    paymentService = PaymentService()
+    return jsonify(paymentService.getWalletDetails(userid))
+
+
 if __name__ == '__main__':
     app.run()

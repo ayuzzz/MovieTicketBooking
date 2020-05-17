@@ -9,3 +9,9 @@ class PaymentService:
 
     def completePaymentActivity(self, jsonRequest):
         return self.paymentRepository.completePaymentActivity(jsonRequest)
+
+    def getBookingDetails(self, userid):
+        return self.paymentRepository.getBookingDetails(userid)
+
+    def getWalletDetails(self, userid):
+        return self.paymentRepository.getWalletDetails(userid)

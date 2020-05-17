@@ -1,6 +1,6 @@
 class Config:
     getAllMoviesUrl = "http://127.0.0.1:8001/getAllMovieDetails"
-    getMovieDetailsUrl = "http://127.0.0.1:8001/getMovieDetails/{}"
+    getMovieDetailsUrl = "http://127.0.0.1:8001/getMovieDetails/{0}/{1}"
     getTheatresDetailsUrl = "http://127.0.0.1:8002/getAllTheatreDetails"
     insertSlotsUrl = "http://127.0.0.1:8002/insertSlots"
     getNonLiveMoviesUrl = "http://127.0.0.1:8001/getNonLiveMovies"
@@ -10,4 +10,7 @@ class Config:
     slotDetailsForSlotIdUrl = "http://127.0.0.1:8002/slotDetailsForSlotid/{}"
     getUserDetails = "http://127.0.0.1:8004/user-details/{}"
     submitUserDetailsUrl = "http://127.0.0.1:8004/user-details"
-
+    getBookingDetailsForUserUrl = "http://127.0.0.1:8003/booking-details/{}"
+    getWalletDetailsForUserUrl = "http://127.0.0.1:8003/wallet-details/{}"
+    addToWishlistUrl = "http://127.0.0.1:8001/addToWishlist/{0}/{1}"
+    getWishlistedMoviesForUserUrl = "http://127.0.0.1:8001/wishlist/{}"

@@ -1,0 +1,56 @@
+<!--- My Wallet Template--->
+{% extends "base.html" %}
+{% block head %}{{ super() }}{% endblock %}
+{% block title %} My Wallet {% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                <div class="card-body row">
+                    <div class="col-md-3">
+                        Wallet Balance : Rs. {{ walletDetails[0]['CurrentBalance'] }}
+                    </div>
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-3">
+                        MTB Points : {{ walletDetails[0]['MtbPoints'] }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-12 card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                <div class="card-title mx-auto">Booking History</div>
+                <div class="card-body">
+                    <table class="table table-dark table-hover">
+                        <th>Transaction Id</th>
+                        <th>Payment Method</th>
+                        <th>Movie</th>
+                        <th>Amount</th>
+                        <th># of Tickets</th>
+                        <th>Date</th>
+
+                        {% for booking in bookingDetails %}
+                            <tr>
+                                <td>{{ booking['BookingId'] }}</td>
+                                <td>{{ booking['PaymentMethod'] }}</td>
+                                <td>{{ booking['Title'] }}</td>
+                                <td>{{ booking['Amount'] }}</td>
+                                <td>{{ booking['TicketCount'] }}</td>
+                                <td>{{ booking['Date'] }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block navbar %}{{ super() }}{% endblock %}

@@ -27,7 +27,7 @@ class SqlQueries:
 
     getMovieDetails = """
                         select
-                        Id,
+                        m.Id,
                         Title,
                         Duration,
                         Genres,
@@ -47,8 +47,10 @@ class SqlQueries:
                         Actor2_name,
                         Actor2_fblikes,
                         Actor3_name,
-                        Actor3_fblikes
-                        from movies where Id = {}
+                        Actor3_fblikes,
+                        IF (w.Id is null, 'N', 'Y') as inWishlist
+                        from movies m left join wishlist w on w.MovieId = m.Id and w.UserId = {1}
+                        where m.Id = {0}
                        """
 
     getNonLiveMovies = """
@@ -76,3 +78,7 @@ class SqlQueries:
                     Actor3_fblikes
                     from movies where isLive = 0
                    """
+
+    addToWishlist = """insert into wishlist values (0, {1}, {0});"""
+
+    getWishlist = """select m.* from movies m inner join wishlist w on w.MovieId = m.Id and w.UserId = {};"""

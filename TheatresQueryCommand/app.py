@@ -33,5 +33,12 @@ def getMovieBookingDetails(movieid):
     return jsonify(theatreservice.getmoviebookingdetails(movieid))
 
 
+@app.route('/top-bookings', methods=['GET'])
+def getTopBookings():
+    theatreservice = TheatreService()
+
+    return jsonify(theatreservice.getTopBookings())
+
+
 if __name__ == '__main__':
     app.run()

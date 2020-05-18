@@ -18,3 +18,6 @@ class MovieService:
 
     def getWishlistedMovies(self, userid):
         return self.movieRepo.getWishlistedMovies(userid)
+
+    def getTopMovies(self):
+        return self.movieRepo.getTopMovies()

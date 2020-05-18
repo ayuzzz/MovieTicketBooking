@@ -14,3 +14,5 @@ class Config:
     getWalletDetailsForUserUrl = "http://127.0.0.1:8003/wallet-details/{}"
     addToWishlistUrl = "http://127.0.0.1:8001/addToWishlist/{0}/{1}"
     getWishlistedMoviesForUserUrl = "http://127.0.0.1:8001/wishlist/{}"
+    getTopBookingsUrl = "http://127.0.0.1:8002/top-bookings"
+    getTopMoviesListUrl = "http://127.0.0.1:8001/top-movies"

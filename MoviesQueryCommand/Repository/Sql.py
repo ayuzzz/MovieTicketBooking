@@ -82,3 +82,9 @@ class SqlQueries:
     addToWishlist = """insert into wishlist values (0, {1}, {0});"""
 
     getWishlist = """select m.* from movies m inner join wishlist w on w.MovieId = m.Id and w.UserId = {};"""
+
+    getTopMovies = """select m.* from bookings b inner join slots s on s.Id = b.SlotId inner join movies m on m.Id = s.MovieId
+                      inner join theatres t on t.Id = s.TheatreId
+                      group by m.Id
+                      order by Count(s.Id)
+                      limit 3; """

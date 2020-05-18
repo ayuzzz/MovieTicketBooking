@@ -27,3 +27,6 @@ class TheatreService:
 
     def slotDetailsForId(self, slotid):
         return self.theatreRepo.getSlotDetailsForId(slotid)
+
+    def getTopBookings(self):
+        return self.theatreRepo.getTopBookings()

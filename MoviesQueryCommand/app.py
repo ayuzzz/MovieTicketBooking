@@ -35,5 +35,11 @@ def getWishlistedMoviesForUser(userid):
     return jsonify(moviesservice.getWishlistedMovies(userid))
 
 
+@app.route('/top-movies', methods=['GET'])
+def getTopMoviesList():
+    moviesservice = MovieService()
+    return jsonify(moviesservice.getTopMovies())
+
+
 if __name__ == '__main__':
     app.run()

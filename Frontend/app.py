@@ -15,7 +15,15 @@ def defaultroute():
 
 @app.route('/home')
 def homepage():
-    return render_template("index.html")
+    try:
+        response = requests.get(Config.getTopBookingsUrl)
+        response.raise_for_status()
+
+        movie_response = requests.get(Config.getTopMoviesListUrl)
+        movie_response.raise_for_status()
+        return render_template("index.html", topBookingList=response.json(), topMoviesList=movie_response.json())
+    except Exception as ex:
+        return render_template("error.html", message=str(ex))
 
 
 @app.route('/wishlist/<int:userid>')
@@ -52,7 +60,8 @@ def movieDetails(movieid):
 @app.route('/bookTickets/<int:movieid>')
 def movieBookingDetails(movieid):
     try:
-        response = requests.get(Config.getMovieBookingDetails.format(movieid))
+        userid = 1
+        response = requests.get(Config.getMovieBookingDetails.format(movieid, userid))
         response.raise_for_status()
         return render_template("bookTickets.html", movieBookingDetails=response.json())
     except Exception as ex:
@@ -72,7 +81,8 @@ def slots():
 @app.route('/slotDetails/<int:movieid>')
 def slotDetails(movieid):
     try:
-        response = requests.get(Config.getMovieDetailsUrl.format(movieid))
+        userid = 1
+        response = requests.get(Config.getMovieDetailsUrl.format(movieid, userid))
         response.raise_for_status()
 
         theatre_response = requests.get(Config.getTheatresDetailsUrl.format(movieid))
@@ -86,12 +96,13 @@ def slotDetails(movieid):
 @app.route('/insertSlots', methods=['POST'])
 def insertSlots():
     try:
+        userid = 1
         slotArray = request.get_json(force=True)
         response = requests.post(Config.insertSlotsUrl, json=slotArray)
         response.raise_for_status()
         result = response.json()
 
-        movie_response = requests.get(Config.getMovieDetailsUrl.format(slotArray[0].MovieId))
+        movie_response = requests.get(Config.getMovieDetailsUrl.format(slotArray[0].MovieId, userid))
         movie_response.raise_for_status()
 
         theatre_response = requests.get(Config.getTheatresDetailsUrl.format(slotArray[0].MovieId))
@@ -105,7 +116,8 @@ def insertSlots():
 @app.route('/payment/<int:movieid>/<int:slotid>')
 def paymentForTicketBooking(movieid, slotid):
     try:
-        response = requests.get(Config.getMovieDetailsUrl.format(movieid))
+        userid = 1
+        response = requests.get(Config.getMovieDetailsUrl.format(movieid, userid))
         response.raise_for_status()
 
         slot_response = requests.get(Config.slotDetailsForSlotIdUrl.format(slotid))

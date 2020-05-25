@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <script src = "{{ url_for('static', filename='js/base.js') }}"></script>
+</head>
+<body style="background-color: orange">
+    <div class="container-fluid">
+        <div class="row" style="height:50px;"></div>
+        <div class="row">
+            <div class="col-md-4 mx-auto">
+                <h3 class="px-5">Movie Ticket Booking Application</h3>
+            </div>
+        </div>
+        <div class="row" style="height:50px;"></div>
+        <div class="row">
+            <div class="card col-md-4 mx-auto" style="background-color: indianred; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mx-auto">
+                            <h4>Login</h4>
+                        </div>
+                    </div>
+                    <br>
+                    <form class="form-group" action="/user-sign-in" method="post">
+                        <div class="row">
+                            <div class="col-md-6 mx-auto">
+                                <input id="user-name" name="userName" class="form-control" type="text" minlength="1" placeholder="Username">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6 mx-auto">
+                                <input id="password" name="password" class="form-control" type="password" minlength="1" placeholder="Password">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3 mx-auto">
+                                <button type="submit" class="btn btn-primary" style="width:100%;">Login</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

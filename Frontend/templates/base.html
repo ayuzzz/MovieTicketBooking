@@ -32,6 +32,13 @@
                     <li class="nav-item mx-3"><a style = "color:#e3f2fd" class="nav-link"  href="/home">Home</a></li>
                     <li class="nav-item mx-3"><a style = "color:#e3f2fd" class="nav-link" href="/movies"> Movies </a></li>
                     <li class="nav-item mx-3"><a style = "color:#e3f2fd" class="nav-link" href="/slots"> Slots </a></li>
+                    <li class="nav-item mx-3"><a style = "color:#e3f2fd" class="nav-link" href="/user-details"> Hi
+                        {% if session['firstName'] is not defined %}
+                            <b>Unknown User</b>
+                        {% else %}
+                            <b>{{ session['firstName'] }}</b>
+                        {% endif %}
+                    </a></li>
                 </ul>
 
 
@@ -48,16 +55,16 @@
             <!-- Links -->
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/user-details/1">My Profile <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/user-details">My Profile <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/wishlist/1">Wish List <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/wishlist">Wish List <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/booking-details/1">My Wallet <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/booking-details">My Wallet <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Sign Out <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/sign-out">Sign Out <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
             <!-- Links -->

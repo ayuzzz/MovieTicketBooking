@@ -14,3 +14,5 @@ class SqlQueries:
                             DefaultPaymentMethod = {5},
                             Age = {6}
                             where Id = {7};"""
+
+    validateUser = """select * from users where UserName = "{0}" and Password = "{1}";"""

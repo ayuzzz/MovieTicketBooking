@@ -19,5 +19,12 @@ def submitUserDetails():
     return jsonify(userService.submitUserDetails(jsonRequest))
 
 
+@app.route('/validate-user', methods=['POST'])
+def validateUser():
+    username_password = request.get_json(force=True)
+    userService = UserService()
+    return jsonify(userService.validateUsernamePassword(username_password))
+
+
 if __name__ == '__main__':
     app.run()

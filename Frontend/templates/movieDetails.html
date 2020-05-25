@@ -30,7 +30,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     {% if movie['inWishlist'] == "N" %}
-                                        <a href="/addToWishlist/{{ movie['Id'] }}/1" class="btn btn-primary">Add to Wishlist</a>
+                                        <a href="/addToWishlist/{{ movie['Id'] }}" class="btn btn-primary">Add to Wishlist</a>
                                     {% else %}
                                         <a href="#" class="btn btn-primary disabled">Add to Wishlist</a>
                                     {% endif %}

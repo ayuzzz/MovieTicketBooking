@@ -41,3 +41,20 @@ class UserRepository:
         conn.commit()
         conn.close()
         return result
+
+    def validateUsernamePassword(self, username_password):
+        conn = mysql.connector.connect(user=self.dbconfig.DB_USERNAME, password=self.dbconfig.DB_PASSWORD,
+                                       host=self.dbconfig.DB_HOSTNAME, port=self.dbconfig.DB_PORT,
+                                       database=self.dbconfig.DB_NAME)
+
+        cursor = conn.cursor()
+        query = Sql.SqlQueries.validateUser.format(username_password['userName'], username_password['password'])
+
+        cursor.execute(query)
+        result = []
+        columns = tuple([d[0] for d in cursor.description])
+        for row in cursor:
+            result.append(dict(zip(columns, row)))
+        cursor.close()
+        conn.close()
+        return result

@@ -9,3 +9,6 @@ class UserService:
 
     def submitUserDetails(self, jsonRequest):
         return self.userRepository.submitUserDetails(jsonRequest)
+
+    def validateUsernamePassword(self, username_password):
+        return self.userRepository.validateUsernamePassword(username_password)

@@ -1,8 +1,9 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, session, g, redirect
 from appsettings import Config
 import requests
 
 app = Flask(__name__)
+app.secret_key = '083b8434-5c70-41ab-82b3-5a23704bcb1b'
 
 
 @app.route('/')
@@ -11,6 +12,20 @@ def defaultroute():
         return "Connection to MTB app successful !!"
     except Exception as ex:
         return ex
+
+
+@app.before_request
+def before_request():
+    if request.endpoint not in ['defaultroute', 'signin', 'homepage', 'usersignin', 'usersignup', 'usersignout', 'static']:
+        if 'userid' in session:
+            g.userid = session['userid']
+            g.firstName = session['firstName']
+            g.lastName = session['lastName']
+            g.defaultPaymentMode = session['DefaultPaymentMode']
+            return None
+        else:
+            return redirect('/sign-in')
+    return None
 
 
 @app.route('/home')
@@ -26,9 +41,63 @@ def homepage():
         return render_template("error.html", message=str(ex))
 
 
-@app.route('/wishlist/<int:userid>')
-def wishlist(userid):
+@app.route('/sign-in', methods=['GET'])
+def signin():
+    return render_template('signin.html')
+
+
+@app.route('/user-sign-in', methods=['POST'])
+def usersignin():
+    userName = request.form['userName']
+    password = request.form['password']
+    requestDict = {'userName':userName, 'password':password}
+    response = requests.post(Config.validateUserUrl, json=requestDict)
+    response.raise_for_status()
+    responses = response.json()
+    if responses:
+        set_session_variables(responses)
+        return redirect('/home')
+    else:
+        return render_template('signin.html')
+
+
+def set_session_variables(responses):
+    session['userid'] = responses[0]['Id']
+    session['firstName'] = responses[0]['FirstName']
+    session['lastName'] = responses[0]['LastName']
+    session['DefaultPaymentMode'] = responses[0]['DefaultPaymentMethod']
+
+    return None
+
+
+def reset_session_variables():
+    if 'userid' in session:
+        session.pop('userid', None)
+    if 'firstName' in session:
+        session.pop('firstName', None)
+    if 'lastName' in session:
+        session.pop('lastName', None)
+    if 'DefaultPaymentMode' in session:
+        session.pop('DefaultPaymentMode', None)
+
+    return None
+
+
+@app.route('/sign-up', methods=['POST'])
+def usersignup():
+    return None
+
+
+@app.route('/sign-out', methods=['GET'])
+def usersignout():
+    reset_session_variables()
+    return redirect('/home')
+
+
+@app.route('/wishlist')
+def wishlist():
     try:
+        userid = g.userid
         response = requests.get(Config.getWishlistedMoviesForUserUrl.format(userid))
         response.raise_for_status()
         return render_template("wishlist.html", movieList=response.json())
@@ -49,7 +118,7 @@ def movies():
 @app.route('/movieDetails/<int:movieid>')
 def movieDetails(movieid):
     try:
-        userid = 1
+        userid = g.userid
         response = requests.get(Config.getMovieDetailsUrl.format(movieid, userid))
         response.raise_for_status()
         return render_template("movieDetails.html", movieDetails=response.json())
@@ -60,7 +129,7 @@ def movieDetails(movieid):
 @app.route('/bookTickets/<int:movieid>')
 def movieBookingDetails(movieid):
     try:
-        userid = 1
+        userid = g.userid
         response = requests.get(Config.getMovieBookingDetails.format(movieid, userid))
         response.raise_for_status()
         return render_template("bookTickets.html", movieBookingDetails=response.json())
@@ -81,7 +150,7 @@ def slots():
 @app.route('/slotDetails/<int:movieid>')
 def slotDetails(movieid):
     try:
-        userid = 1
+        userid = g.userid
         response = requests.get(Config.getMovieDetailsUrl.format(movieid, userid))
         response.raise_for_status()
 
@@ -96,7 +165,7 @@ def slotDetails(movieid):
 @app.route('/insertSlots', methods=['POST'])
 def insertSlots():
     try:
-        userid = 1
+        userid = g.userid
         slotArray = request.get_json(force=True)
         response = requests.post(Config.insertSlotsUrl, json=slotArray)
         response.raise_for_status()
@@ -116,7 +185,7 @@ def insertSlots():
 @app.route('/payment/<int:movieid>/<int:slotid>')
 def paymentForTicketBooking(movieid, slotid):
     try:
-        userid = 1
+        userid = g.userid
         response = requests.get(Config.getMovieDetailsUrl.format(movieid, userid))
         response.raise_for_status()
 
@@ -137,9 +206,10 @@ def submitPayment():
     paymentMode = int(request.form['paymentMode'])
     amount = float(request.form['amount'])
     slotId = request.form['slotId']
-    userid = 1
+    userid = g.userid
 
-    requestDict = {'numberOfTickets': numTickets, 'paymentMode': paymentMode, "amount": amount, 'userid': userid, 'slotId':slotId}
+    requestDict = {'numberOfTickets': numTickets, 'paymentMode': paymentMode, "amount": amount, 'userid': userid,
+                   'slotId': slotId}
     response = requests.post(Config.completePaymentUrl, json=requestDict)
     response.raise_for_status()
     result = response.json()
@@ -149,9 +219,10 @@ def submitPayment():
     return render_template("paymentStatus.html", status=status, message=message)
 
 
-@app.route('/user-details/<int:userid>', methods=['GET'])
-def getUserDetails(userid):
+@app.route('/user-details', methods=['GET'])
+def getUserDetails():
     try:
+        userid = g.userid
         response = requests.get(Config.getUserDetails.format(userid))
         response.raise_for_status()
 
@@ -163,8 +234,8 @@ def getUserDetails(userid):
         return render_template("error.html", message=str(ex))
 
 
-@app.route('/user-details/<int:userid>', methods=['POST'])
-def submitUserDetails(userid):
+@app.route('/user-details', methods=['POST'])
+def submitUserDetails():
     firstName = request.form['firstName']
     lastName = request.form['lastName']
     primaryContact = str(request.form['primarycontactnumber'])
@@ -172,32 +243,35 @@ def submitUserDetails(userid):
     city = request.form['city']
     age = int(request.form['age'])
     paymentMode = int(request.form['paymentMode'])
-    userid = userid
+    userid = g.userid
 
-    requestDict = {'firstName': firstName, 'paymentMode': paymentMode, 'lastName': lastName, 'primaryContact': primaryContact, 'country':country, 'city':city, 'age':age, 'userid':userid}
+    requestDict = {'firstName': firstName, 'paymentMode': paymentMode, 'lastName': lastName,
+                   'primaryContact': primaryContact, 'country': country, 'city': city, 'age': age, 'userid': userid}
     response = requests.post(Config.submitUserDetailsUrl, json=requestDict)
     response.raise_for_status()
 
     return getUserDetails(userid)
 
 
-@app.route('/booking-details/<int:userid>', methods=['GET'])
-def getBookingDetailsForUser(userid):
+@app.route('/booking-details', methods=['GET'])
+def getBookingDetailsForUser():
     try:
+        userid = g.userid
         response = requests.get(Config.getBookingDetailsForUserUrl.format(userid))
         response.raise_for_status()
 
         wallet_response = requests.get(Config.getWalletDetailsForUserUrl.format(userid))
         wallet_response.raise_for_status()
 
-        return render_template("wallet.html", bookingDetails=response.json(), walletDetails = wallet_response.json())
+        return render_template("wallet.html", bookingDetails=response.json(), walletDetails=wallet_response.json())
     except Exception as ex:
         return render_template("error.html", message=str(ex))
 
 
-@app.route('/addToWishlist/<int:movieid>/<int:userid>', methods=['GET'])
-def addToWishlist(movieid, userid):
+@app.route('/addToWishlist/<int:movieid>', methods=['GET'])
+def addToWishlist(movieid):
     try:
+        userid = g.userid
         response = requests.post(Config.addToWishlistUrl.format(movieid, userid))
         response.raise_for_status()
 

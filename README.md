@@ -4,5 +4,5 @@ This a Movie Ticket Booking application which completely follows the microservic
 
 <h3>Branch Details</h3>
 
--> <b>master</b> : It contains the basic web app that covers the basic flow <br>
--> <b>docker</b> : It contains the dockerized version of app (dockerfiles present inside each microservice directory). I will be        attaching the powershell script for building and running each container.
+-> <b>master</b> : It contains the basic web app<br>
+-> <b>docker</b> : It contains the dockerized version of app (dockerfiles present inside each microservice directory). I will be attaching the powershell script for building and running each container. (docker image details shared in the Readme.md of <b>docker</b> branch)

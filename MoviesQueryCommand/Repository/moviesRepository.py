@@ -1,5 +1,4 @@
 import mysql.connector
-from mysql.connector.cursor import MySQLCursorDict
 
 from Repository import Sql
 from appsettings import Config

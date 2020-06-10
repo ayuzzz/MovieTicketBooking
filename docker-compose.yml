@@ -37,9 +37,9 @@ services:
 
     mysql-server:
         build: ./MySqlServer
-        environment:
-            - MYSQL_ROOT_PASSWORD=root@123
-        #command: mysql -uroot -p'root@123' < MySqlServer/Basedata-MTB.sql 
+        # environment:
+        #     - MYSQL_ROOT_PASSWORD=root@123
+        # command: mysql -uroot -p'root@123' < MySqlServer/Basedata-MTB.sql 
         ports: 
             - "9000:3306"
         

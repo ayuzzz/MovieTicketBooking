@@ -8,6 +8,16 @@ This a Movie Ticket Booking application which completely follows the <b>microser
 -> <b>docker</b> : It contains the dockerized version of app (dockerfiles present inside each microservice directory). I will be attaching the powershell script for building and running each container. (docker image details shared in the Readme.md of <b>docker</b> branch)<br>
 -> <b>docker-compose</b> : It contains the containerized version of the application, using <b>docker-compose</b>. The docker-compose.yml is present in the project root directory.
 
+
+<br>
+<h3>Docker images for pulling the images (ready-to-run the application)</h3>
+<br><b>-> docker pull ayuzzz1995/mtb-frontend</b>
+<br><b>-> docker pull ayuzzz1995/mtb-movies-query-command</b>
+<br><b>-> docker pull ayuzzz1995/mtb-theatres-query-command</b></b>
+<br><b>-> docker pull ayuzzz1995/mtb-payments-query-command</b>
+<br><b>-> docker pull ayuzzz1995/mtb-user-query-command</b>
+
+
 <br>
 <h3>Tech stack</h3>
 

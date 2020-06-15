@@ -5,7 +5,7 @@ This a Movie Ticket Booking application which completely follows the <b>microser
 <h3>Branch Details</h3>
 
 -> <b>master</b> : It contains the basic web app<br>
--> <b>docker</b> : It contains the dockerized version of app (dockerfiles present inside each microservice directory). I will be attaching the powershell script for building and running each container. (docker image details shared in the Readme.md of <b>docker</b> branch)<br>
+-> <b>docker</b> : It contains the dockerized version of app (dockerfiles present inside each microservice directory). I will be attaching the powershell script (<b>docker_containers.ps1</b>) for building and running each container along with the initial database setup script (<b>Basedata-MTB.sql</b>). (docker image details shared in the Readme.md of <b>docker</b> branch)<br>
 -> <b>docker-compose</b> : It contains the containerized version of the application, using <b>docker-compose</b>. The docker-compose.yml is present in the project root directory.
 
 
